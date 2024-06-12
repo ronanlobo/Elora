@@ -1,0 +1,60 @@
+# Import necessary libraries
+import numpy as np
+import time 
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn import metrics
+import matplotlib.pyplot as plt
+
+print("Hey it's Lucs:D")
+print("Calculating.....pls be patient :D")
+time.sleep(10)
+print("Finished here are the results :D")
+
+np.random.seed(42)
+years = np.arange(2000, 2021)
+rice_production = np.random.uniform(5000, 8000, len(years))
+temperature = np.random.uniform(25, 30, len(years))
+rainfall = np.random.uniform(500, 1000, len(years))
+
+
+data = pd.DataFrame({'Year': years, 'Temperature': temperature, 'Rainfall': rainfall, 'RiceProduction': rice_production})
+
+
+print(data.head())
+
+
+X = data[['Temperature', 'Rainfall']]
+y = data['RiceProduction']
+
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+
+model = LinearRegression()
+
+
+model.fit(X_train, y_train)
+
+
+y_pred = model.predict(X_test)
+
+
+mse = metrics.mean_squared_error(y_test, y_pred)
+rmse = np.sqrt(mse)
+r2 = metrics.r2_score(y_test, y_pred)
+
+print('Mean Squared Error:', mse)
+print('Root Mean Squared Error:', rmse)
+print('R-squared:', r2)
+
+
+plt.scatter(X_test['Temperature'], y_test, color='black', label='Actual')
+plt.scatter(X_test['Temperature'], y_pred, color='blue', label='Predicted')
+plt.xlabel('Temperature')
+plt.ylabel('Rice Production')
+plt.legend()
+plt.show()
+
+print("Thank you for using LUCA:D")
